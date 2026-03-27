@@ -1,10 +1,32 @@
-// progress 값을 + 버튼, - 버튼을 눌렀을때  id 'progress1'의 값을 1씩 변형
+function setCircular(value) {
+    const clamped = Math.max(0, Math.min(100, Number(value)));
+    const circle = document.getElementById('circularProgress');
+    circle.style.setProperty('--p', clamped);
+    document.getElementById('circularValue').textContent = `${clamped}%`;
+}
 
 function progressup(){
-    document.querySelector('#progress1').value = parseInt(document.querySelector('#progress1').value) + 1;
-    document.querySelector('#progress2').innerText = document.querySelector('#progress1').value;
+    const p = document.querySelector('#progress1');
+    p.value = Math.min(100, Number(p.value) + 1);
+    document.querySelector('#progress2').innerText = p.value;
+    setCircular(p.value);
 }
+
 function progressdown(){
-    document.querySelector('#progress1').value = parseInt(document.querySelector('#progress1').value) - 1;
-    document.querySelector('#progress2').innerText = document.querySelector('#progress1').value;
+    const p = document.querySelector('#progress1');
+    p.value = Math.max(0, Number(p.value) - 1);
+    document.querySelector('#progress2').innerText = p.value;
+    setCircular(p.value);
 }
+
+function slider(){
+    const v = document.querySelector('#sliderController').value;
+    document.querySelector('#progress1').value = v;
+    document.querySelector('#progress2').innerText = v;
+    setCircular(v);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const startValue = document.querySelector('#progress1')?.value || 0;
+    setCircular(startValue);
+});
